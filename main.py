@@ -3,6 +3,10 @@ import mediapipe as mp
 import numpy as np
 import time
 from scipy.spatial import distance as dist
+import pygame
+import os
+pygame.mixer.init()
+alert_sound = pygame.mixer.Sound('alert.wav')
 
 # constants
 LEFT_EYE = [33, 160, 158, 133, 153, 144]
@@ -75,6 +79,8 @@ with FaceLandmarker.create_from_options(options) as landmarker:
                     frame_counter += 1
                     if frame_counter >= FRAME_THRESHOLD:
                         alert_active = True
+                        if not pygame.mixer.get_busy():
+                            alert_sound.play()
                 else:
                     frame_counter = 0
                     alert_active = False
